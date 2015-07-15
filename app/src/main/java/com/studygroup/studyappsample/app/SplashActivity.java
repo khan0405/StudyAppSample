@@ -75,12 +75,15 @@ public class SplashActivity extends AppCompatActivity {
                 Class<?> c = null;
                 switch (result) {
                     case SERVER_CHECK:
+                        showToast(R.string.err_check_server);
                         handleError(ErrorType.SERVER_ERROR, null);
                         return;
                     case LOGIN_FAILURE:
+                        showToast(R.string.need_join);
                         c = JoinActivity.class;
                         break;
                     case LOGIN_SUCCESS:
+                        showToast(R.string.success_login);
                         c = MainActivity.class;
                         break;
                 }
@@ -89,6 +92,7 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Throwable e) {
+                showToast(R.string.err_network_timeout);
                 moveActivity(JoinActivity.class);
             }
         });
@@ -136,6 +140,16 @@ public class SplashActivity extends AppCompatActivity {
         builder.setCancelable(false);
         builder.setMessage(messageId);
         builder.create().show();
+    }
+
+    public void showToast(final int resId) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(SplashActivity.this, resId, Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
     public void moveActivity(Class<?> c) {
@@ -200,7 +214,7 @@ public class SplashActivity extends AppCompatActivity {
         if (!backPressed.get()) {
             backPressed.set(true);
             // 종료할거냐고 토스트 보여줌
-            Toast.makeText(this, R.string.try_exit, Toast.LENGTH_SHORT).show();
+            showToast(R.string.try_exit);
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {

@@ -42,7 +42,7 @@ public class BackgroundWorker {
 
         public void run() {
             try {
-                callback.onSuccess(future.get(3000, TimeUnit.MILLISECONDS));
+                callback.onSuccess(future.get(5000, TimeUnit.MILLISECONDS));
             } catch (Exception e) {
                 callback.onFailure(e);
             }
