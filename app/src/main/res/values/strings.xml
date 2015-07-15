@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">StudyAppSample</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_main">Main</string>
+    <string name="title_activity_join">Join</string>
+    <string name="complete">Complete</string>
+    <string name="try_exit">정말 종료하시겠습니까?</string>
+
+    <string name="btn_ok">확인</string>
+    <string name="btn_update">업데이트</string>
+    <string name="btn_cancel">취소</string>
+
+    <string name="err_need_update">최신 버전이 존재합니다. 업데이트 하시겠습니까?</string>
+    <string name="err_network_unavailable">네트워크에 연결되어있지 않습니다. Wifi나 셀룰러 연결을 확인하시고 다시 시도하여 주십시오.</string>
+    <string name="err_network_timeout">네트워크가 원활하지 않습니다. 연결 상태를 확인하시고 다시 시도하여 주십시오.</string>
+    <string name="err_check_server">서버 점검중입니다. </string>
+</resources>
