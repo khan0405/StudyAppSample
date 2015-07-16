@@ -3,7 +3,6 @@ package com.studygroup.studyappsample.app.common;
 import android.os.Handler;
 import android.os.Looper;
 
-import java.util.List;
 import java.util.concurrent.*;
 
 /**
@@ -11,8 +10,7 @@ import java.util.concurrent.*;
  * Created by KHAN on 2015-07-15.
  */
 public class BackgroundWorker {
-    ExecutorService executor;
-    List<Future<?>> futures = new CopyOnWriteArrayList<Future<?>>();
+    private ExecutorService executor;
 
     public BackgroundWorker() {
         executor = Executors.newFixedThreadPool(2);
@@ -20,8 +18,7 @@ public class BackgroundWorker {
 
     public <T> Future<T> executeTask(Callable<T> task, NetworkListener<T> callback) {
         final Future<T> future = executor.submit(task);
-        futures.add(future);
-        futures.add(executor.submit(new TimeoutTask<T>(future, callback)));
+        executor.submit(new TimeoutTask<T>(future, callback));
         return future;
     }
 
@@ -32,21 +29,32 @@ public class BackgroundWorker {
     static class TimeoutTask<T> implements Runnable {
         private Future<T> future;
         private NetworkListener<T> callback;
-        Handler handler;
+        private Handler handler = new Handler(Looper.getMainLooper());
 
         TimeoutTask(Future<T> future, NetworkListener<T> callback) {
-            handler = new Handler(Looper.getMainLooper());
             this.future = future;
             this.callback = callback;
         }
 
         public void run() {
             try {
-                callback.onSuccess(future.get(5000, TimeUnit.MILLISECONDS));
+                notifyCallback(future.get(5000, TimeUnit.MILLISECONDS), null);
             } catch (Exception e) {
-                callback.onFailure(e);
+                notifyCallback(null, e);
             }
         }
 
+        void notifyCallback(final T data, final Exception e) {
+            handler.post(new Runnable() {
+               public void run() {
+                   if (e != null) {
+                       callback.onFailure(e);
+                   }
+                   else {
+                       callback.onSuccess(data);
+                   }
+               }
+            });
+        }
     }
 }

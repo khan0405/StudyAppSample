@@ -11,6 +11,7 @@ import java.util.Random;
  * Created by KHAN on 2015-07-15.
  */
 public class DummyApiManager {
+    public static final int DEFAULT_WAIT_TIME = 3000;
 
     public static boolean isNetworkConnected(Context context) {
         try {
@@ -28,16 +29,22 @@ public class DummyApiManager {
             return false;
         }
     }
+
     public static int doCallApi() {
-        return doCallApi(3000);
+        return doCallApi(DEFAULT_WAIT_TIME);
     }
+
     public static int doCallApi(long delayMillis) {
+        Random r = new Random();
+        return doCallApi(delayMillis, r.nextInt(3));
+    }
+
+    public static int doCallApi(long delayMillis, int retValue) {
         try {
             Thread.sleep(delayMillis);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Random r = new Random();
-        return r.nextInt(3);
+        return retValue;
     }
 }

@@ -87,6 +87,7 @@ public class SplashActivity extends AppCompatActivity {
                         c = MainActivity.class;
                         break;
                 }
+
                 moveActivity(c);
             }
 
@@ -143,13 +144,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     public void showToast(final int resId) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(SplashActivity.this, resId, Toast.LENGTH_SHORT).show();
-
-            }
-        });
+        Toast.makeText(SplashActivity.this, resId, Toast.LENGTH_SHORT).show();
     }
 
     public void moveActivity(Class<?> c) {
